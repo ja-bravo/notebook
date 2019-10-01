@@ -31,6 +31,10 @@ const Global = createGlobalStyle`
   * {
     font-family: 'Fira Code', monospace;
   }
+
+  p {
+    margin: 0;
+  }
 `;
 
 const Page: React.FC = ({ children }) => {

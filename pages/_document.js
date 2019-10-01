@@ -21,7 +21,6 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <title>Notebook</title>
           {this.props.styleTags}
           <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet" />
         </Head>
