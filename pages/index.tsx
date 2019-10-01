@@ -8,9 +8,9 @@ import firebase from '../firebase';
 import Page from '../components/page';
 import Categories from '../components/categories';
 import styled from 'styled-components';
-import Markdown from 'react-markdown';
 import Editor from '../components/editor';
 import INote from '../interfaces/Note';
+import ReactLoading from 'react-loading';
 
 const Content = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ const Content = styled.div`
 
 const Home: NextPage = () => {
   const [user, userLoading] = useAuthState(firebase!.auth());
-
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -33,6 +33,12 @@ const Home: NextPage = () => {
     if (user && user.email) {
       document.title = `${user.email}'s Notebook`;
     }
+
+    if (!userLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    }
   }, [user, userLoading]);
 
   const [selectedNote, setSelectedNote] = useState({} as INote);
@@ -40,9 +46,15 @@ const Home: NextPage = () => {
   return (
     <Page>
       <Content>
-        <Categories onClick={note => setSelectedNote(note)} userID={user ? user.uid : undefined} />
+        {!isLoading && (
+          <>
+            <Categories onClick={note => setSelectedNote(note)} userID={user ? user.uid : undefined} />
 
-        <Editor note={selectedNote} />
+            <Editor note={selectedNote} />
+          </>
+        )}
+
+        {isLoading && <ReactLoading type={'cylon'} color={'#333'} height={400} width={200} />}
       </Content>
     </Page>
   );
