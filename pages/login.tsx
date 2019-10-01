@@ -17,6 +17,8 @@ const Login: NextPage = () => {
   useEffect(() => {
     if (user && !loading) {
       router.replace('/');
+    } else {
+      document.title = 'Notebook';
     }
   }, [user, loading]);
 
